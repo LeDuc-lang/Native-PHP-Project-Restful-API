@@ -90,7 +90,7 @@ class User
             throwDbNullConnection($this->conn);
 
             // FIXME To be optimized (eg. 6 characters token prefix)
-            $query = 'SELECT user.id, user.email, user.pseudo, user.gender, user.avatar, refresh_token.token ';
+            $query = 'SELECT user.id, user.email, user.pseudo, user.gender, refresh_token.token ';
             $query .= 'FROM user ';
             $query .= 'JOIN refresh_token ';
             $query .= 'ON user.id = refresh_token.user_id ';
@@ -111,14 +111,14 @@ class User
         return null;
     }
 
-    public function create($firstName, $lastName, $pseudo, $birthDate, $gender, $avatar, $email, $password): ?int
+    public function create($firstName, $lastName, $pseudo, $birthDate, $gender, $email, $password): ?int
     {
         try {
             throwDbNullConnection($this->conn);
 
             $query = 'INSERT INTO user ';
-            $query .= '(first_name, last_name, pseudo, birth_date, gender, avatar, email, password, created_at) ';
-            $query .= 'VALUES (:first_name, :last_name, :pseudo, :birth_date, :gender, :avatar, :email, :password, NOW())';
+            $query .= '(first_name, last_name, pseudo, birth_date, gender, email, password, created_at) ';
+            $query .= 'VALUES (:first_name, :last_name, :pseudo, :birth_date, :gender, :email, :password, NOW())';
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':first_name', $firstName);
@@ -126,7 +126,6 @@ class User
             $stmt->bindParam(':pseudo', $pseudo);
             $stmt->bindParam(':birth_date', $birthDate);
             $stmt->bindParam(':gender', $gender);
-            $stmt->bindParam(':avatar', $avatar);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', $password);
             $stmt->execute();
@@ -229,14 +228,14 @@ class User
 
     /**
      * Liste les joueurs connectés (vus il y a moins de 30 secondes), hors soi-même.
-     * Seuls le pseudo et l'avatar sont exposés : aucune donnée sensible.
+     * Seuls le pseudo et la présence sont exposés : aucune donnée sensible.
      */
     public function findAvailable(int $currentUserId): ?array
     {
         try {
             throwDbNullConnection($this->conn);
 
-            $query = 'SELECT id, pseudo, avatar, last_seen_at FROM user ';
+            $query = 'SELECT id, pseudo, last_seen_at FROM user ';
             $query .= 'WHERE id <> :id AND deactivated_at IS NULL ';
             $query .= 'AND last_seen_at IS NOT NULL AND last_seen_at >= (NOW() - INTERVAL 30 SECOND) ';
             // Un joueur déjà en partie n'est plus « disponible ».

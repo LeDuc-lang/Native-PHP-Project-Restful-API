@@ -105,19 +105,13 @@
                             </label>
                         </div>
 
-                        <div class="grid">
-                            <label for="registerGender">Genre
-                                <select id="registerGender" name="gender" required>
-                                    <option value="m">Homme</option>
-                                    <option value="f">Femme</option>
-                                    <option value="o">Autre</option>
-                                </select>
-                            </label>
-                            <label for="registerAvatar">Avatar (nom du fichier)
-                                <input id="registerAvatar" name="avatar" maxlength="250"
-                                       placeholder="mon-avatar.jpg">
-                            </label>
-                        </div>
+                        <label for="registerGender">Genre
+                            <select id="registerGender" name="gender" required>
+                                <option value="m">Homme</option>
+                                <option value="f">Femme</option>
+                                <option value="o">Autre</option>
+                            </select>
+                        </label>
 
                         <label for="registerEmail">Adresse e-mail
                             <input type="email" id="registerEmail" name="email" required>
@@ -297,7 +291,6 @@
                 <div><dt>Nom complet</dt><dd id="profileFullName"></dd></div>
                 <div><dt>Date de naissance</dt><dd id="profileBirthDate"></dd></div>
                 <div><dt>Genre</dt><dd id="profileGender"></dd></div>
-                <div><dt>Avatar</dt><dd id="profileAvatar"></dd></div>
                 <div><dt>Compte créé le</dt><dd id="profileCreatedAt"></dd></div>
             </dl>
         </article>
@@ -322,11 +315,6 @@
                             <option value="f">Femme</option>
                             <option value="o">Autre</option>
                         </select>
-                    </label>
-
-                    <label for="updateAvatar">Avatar (nom du fichier)
-                        <input id="updateAvatar" name="avatar" maxlength="250"
-                               placeholder="mon-avatar.jpg">
                     </label>
 
                     <button type="submit" class="btn-primary">Enregistrer les modifications</button>
@@ -477,7 +465,6 @@
         );
         $('#profileBirthDate').text(currentUser.birth_date || '—');
         $('#profileGender').text(GENDER_LABELS[currentUser.gender] || '—');
-        $('#profileAvatar').text(currentUser.avatar || 'Aucun');
         $('#profileCreatedAt').text(currentUser.created_at || '—');
 
         const initial = String(currentUser.pseudo || '?').charAt(0).toUpperCase();
@@ -488,7 +475,6 @@
 
         $('#updatePseudo').val(currentUser.pseudo || '');
         $('#updateGender').val(currentUser.gender || 'o');
-        $('#updateAvatar').val(currentUser.avatar || '');
 
         startMotusPolling();
     }
@@ -1265,7 +1251,7 @@
                 });
         });
 
-        // 3.5 — Modification du compte (pseudo, genre et avatar uniquement)
+        // 3.5 — Modification du compte (pseudo et genre uniquement)
         $('#updateForm').on('submit', function (event) {
             event.preventDefault();
 
@@ -1282,8 +1268,7 @@
                 json: true,
                 data: {
                     pseudo: $('#updatePseudo').val().trim(),
-                    gender: $('#updateGender').val(),
-                    avatar: $('#updateAvatar').val().trim()
+                    gender: $('#updateGender').val()
                 }
             })
                 .then(function (response) {

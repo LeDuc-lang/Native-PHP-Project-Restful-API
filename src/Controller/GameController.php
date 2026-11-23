@@ -57,8 +57,6 @@ class GameController
             'player2_id' => (int)$game['player2_id'],
             'player1_pseudo' => $game['player1_pseudo'] ?? null,
             'player2_pseudo' => $game['player2_pseudo'] ?? null,
-            'player1_avatar' => $game['player1_avatar'] ?? null,
-            'player2_avatar' => $game['player2_avatar'] ?? null,
             'status' => $game['status'],
             'current_turn_user_id' => (int)$game['current_turn_user_id'],
             'winner_id' => $game['winner_id'] !== null ? (int)$game['winner_id'] : null,

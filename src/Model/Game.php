@@ -79,7 +79,7 @@ class Game
     }
 
     /**
-     * Retourne une partie avec les pseudos/avatars des deux joueurs.
+     * Retourne une partie avec les pseudos des deux joueurs.
      */
     public function findById(int $gameId): ?array
     {
@@ -87,8 +87,8 @@ class Game
             throwDbNullConnection($this->conn);
 
             $query = 'SELECT g.*, ';
-            $query .= 'p1.pseudo AS player1_pseudo, p1.avatar AS player1_avatar, ';
-            $query .= 'p2.pseudo AS player2_pseudo, p2.avatar AS player2_avatar ';
+            $query .= 'p1.pseudo AS player1_pseudo, ';
+            $query .= 'p2.pseudo AS player2_pseudo ';
             $query .= 'FROM game g ';
             $query .= 'JOIN user p1 ON p1.id = g.player1_id ';
             $query .= 'JOIN user p2 ON p2.id = g.player2_id ';

@@ -219,7 +219,7 @@ La disponibilité est déduite de l'activité, sans table supplémentaire :
 - chaque requête authentifiée appelle `User::touchLastSeen()` (`UPDATE user SET last_seen_at = NOW()`) ;
 - `User::findAvailable()` sélectionne les utilisateurs dont `last_seen_at >= NOW() - INTERVAL 30 SECOND`,
   sauf soi-même, les comptes désactivés **et ceux qui ont déjà une partie active** ;
-- seuls `id`, `pseudo`, `avatar` et `last_seen_at` sont renvoyés (aucune donnée sensible).
+- seuls `id`, `pseudo` et `last_seen_at` sont renvoyés (aucune donnée sensible).
 
 Un joueur qui ferme son onglet n'envoie plus de requête : il disparaît automatiquement du salon après
 30 secondes. Une déconnexion explicite le fait disparaître immédiatement.
@@ -271,7 +271,7 @@ Le sujet demande **au minimum un modèle et un contrôleur supplémentaires** : 
 |---|---|
 | `create()` | Crée la partie sous transaction avec `SELECT ... FOR UPDATE` |
 | `findActiveForUser()` | Retrouve la partie en cours d'un utilisateur |
-| `findById()` | Récupère la partie avec les pseudos/avatars des deux joueurs |
+| `findById()` | Récupère la partie avec les pseudos des deux joueurs |
 | `findAttempts()` | Liste les tentatives et décode le JSON des couleurs |
 | `computeResult()` | Calcule rouge / jaune / bleu en deux passes |
 | `playAttempt()` | Joue un coup de façon atomique (tour, délai, 8 coups, victoire/nul) |

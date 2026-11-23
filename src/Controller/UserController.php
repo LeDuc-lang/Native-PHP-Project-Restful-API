@@ -110,9 +110,6 @@ class UserController
                 return;
             }
 
-            $avatar = trim((string)($_POST['avatar'] ?? ''));
-            $inputData['avatar'] = $avatar !== '' ? $avatar : null;
-
             if (!filter_var($inputData['email'], FILTER_VALIDATE_EMAIL)) {
                 sendResponseCustom('Invalid email address', null, 'Error', 400);
                 return;
@@ -145,7 +142,6 @@ class UserController
                 $inputData['pseudo'],
                 $inputData['birth_date'],
                 $inputData['gender'],
-                $inputData['avatar'],
                 $inputData['email'],
                 password_hash($inputData['password'], PASSWORD_DEFAULT)
             );
@@ -189,7 +185,7 @@ class UserController
                 return;
             }
 
-            $acceptedFields = ['pseudo', 'gender', 'avatar'];
+            $acceptedFields = ['pseudo', 'gender'];
 
             $toBeUpdated = [];
             foreach ($acceptedFields as $acceptedField) {
@@ -198,11 +194,6 @@ class UserController
                 }
 
                 $value = trim((string)$inputData[$acceptedField]);
-
-                if ($acceptedField === 'avatar' && $value === '') {
-                    $toBeUpdated[$acceptedField] = null;
-                    continue;
-                }
 
                 if ($value !== '') {
                     $toBeUpdated[$acceptedField] = $value;

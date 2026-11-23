@@ -300,8 +300,8 @@ Points importants :
 - **Création** (`#registerForm`) : `POST /api/user`, tous les champs requis, puis retour au formulaire de
   connexion avec l'email prérempli.
 - **Déconnexion** (`#logoutForm`) : formulaire ne contenant qu'un bouton, `POST /api/logout`.
-- **Modification** (`#updateForm`) : `PATCH /api/user/{id}` en JSON, avec **uniquement** `pseudo`,
-  `gender` et `avatar`.
+- **Modification** (`#updateForm`) : `PATCH /api/user/{id}` en JSON, avec **uniquement** `pseudo` et
+  `gender`.
 - **Suppression** (`#deleteForm`) : `DELETE /api/user/{id}`, avec confirmation `window.confirm()`.
 
 ---
@@ -376,7 +376,7 @@ recevrait une réponse **403 Forbidden**.
 - date de naissance validée avec `checkdate()` ;
 - mot de passe de 6 caractères minimum, hashé avec `password_hash()` ;
 - pseudo et email uniques (réponse `409` en cas de doublon) ;
-- seuls `pseudo`, `gender` et `avatar` sont acceptés en modification ;
+- seuls `pseudo` et `gender` sont acceptés en modification ;
 - le mot de passe et le token ne sont jamais renvoyés au client (`publicUser()`).
 
 ---
@@ -393,7 +393,6 @@ curl -i -X POST http://localhost:8080/api/user \
   -d "pseudo=TestUser" \
   -d "birth_date=2000-01-01" \
   -d "gender=o" \
-  -d "avatar=test.jpg" \
   -d "email=test.user@example.com" \
   -d "password=password"
 
@@ -413,7 +412,7 @@ curl -i -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/user/6
 curl -i -X PATCH http://localhost:8080/api/user/6 \
   -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"pseudo":"TestUserUpdated","gender":"m","avatar":"new-avatar.jpg"}'
+  -d '{"pseudo":"TestUserUpdated","gender":"m"}'
 
 # 5. Tentative de modification d'un autre compte -> 403
 curl -i -X PATCH http://localhost:8080/api/user/1 \
@@ -455,7 +454,7 @@ L'utilisateur n'a jamais eu à ressaisir son mot de passe.
 | 2 | Se connecter avec un mauvais mot de passe | Message d'erreur, formulaire toujours visible |
 | 3 | Se connecter avec le compte de démo | Profil affiché, formulaire caché, bouton de déconnexion visible |
 | 4 | Recharger la page | La session est restaurée automatiquement |
-| 5 | Modifier pseudo / genre / avatar | Message de succès, profil mis à jour |
+| 5 | Modifier pseudo / genre | Message de succès, profil mis à jour |
 | 6 | Se déconnecter | Retour au formulaire de connexion |
 | 7 | Créer un compte avec un pseudo existant | Message « Pseudo or email is already used » |
 | 8 | Supprimer son compte | Retour au formulaire de connexion, compte supprimé de la base |
